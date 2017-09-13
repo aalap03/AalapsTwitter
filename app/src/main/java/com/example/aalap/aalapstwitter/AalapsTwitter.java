@@ -13,6 +13,6 @@ public class AalapsTwitter extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Twitter.initialize(getApplicationContext());
+        Twitter.initialize(this);
     }
 }
