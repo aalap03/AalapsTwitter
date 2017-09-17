@@ -23,16 +23,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(getResources().getString(R.string.twitter_api_key), getResources().getString(R.string.twitter_secret_key));
-
         loginButton =  findViewById(R.id.twitter_login);
-
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 TwitterSession twitterSession = result.data;
-                Log.d(TAG, "success: userName "+twitterSession.getUserName());
-                Log.d(TAG, "success: authToken "+twitterSession.getAuthToken());
             }
 
             @Override
@@ -48,5 +43,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         loginButton.onActivityResult(requestCode, resultCode, data);
+        Intent intent = new Intent(this, AfterLogIn.class);
+        intent.putExtra("bundle", data.getExtras());
+        startActivity(intent);
     }
 }
