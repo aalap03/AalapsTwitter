@@ -1,17 +1,17 @@
 package com.example.aalap.aalapstwitter.Model;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.aalap.aalapstwitter.AfterLogIn;
+import com.example.aalap.aalapstwitter.R;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.tweetui.CompactTweetView;
 import com.twitter.sdk.android.tweetui.TweetUtils;
 import com.twitter.sdk.android.tweetui.TweetView;
 
@@ -29,14 +29,14 @@ import retrofit2.Response;
 public class MyModel {
 
     Activity activity;
-
+    private static final String TAG = "MyModel";
     public MyModel(Activity activity) {
         this.activity = activity;
     }
 
     public void showTweets(final LinearLayout linearLayout, String query) {
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
-        Call<Search> tweets = twitterApiClient.getSearchService().tweets(query, null, null, null, null, null, null, null, null, false);
+        Call<Search> tweets = twitterApiClient.getSearchService().tweets(query, null, null, null, null, 100, null, null, null, false);
         tweets.enqueue(new Callback<Search>() {
             @Override
             public void onResponse(Call<Search> call, Response<Search> response) {
@@ -47,12 +47,14 @@ public class MyModel {
                         TweetUtils.loadTweet(tweet.getId(), new com.twitter.sdk.android.core.Callback<Tweet>() {
                             @Override
                             public void success(final Result<Tweet> result) {
-                                linearLayout.addView(new CompactTweetView(activity, result.data));
+                                linearLayout.addView(new TweetView(activity, result.data, R.style.tw__TweetDarkWithActionsStyle));
                             }
 
                             @Override
                             public void failure(TwitterException exception) {
-
+                                Toast.makeText(activity,
+                                        "Show tweet failure "+exception.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -61,17 +63,18 @@ public class MyModel {
 
             @Override
             public void onFailure(Call<Search> call, Throwable t) {
-
+                Log.d(TAG, "onFailure: "+t.getMessage());
             }
         });
     }
 
-    boolean responseProcess(final Response response) {
+   public boolean responseProcess(final Response response) {
         if (!response.isSuccessful()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        Log.d(TAG, "run: "+response.errorBody().string());
                         Toast.makeText(activity, "Error:" + response.errorBody().string(), Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -83,6 +86,4 @@ public class MyModel {
             return true;
         }
     }
-
-
 }
