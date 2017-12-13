@@ -21,7 +21,6 @@ import com.twitter.sdk.android.tweetui.internal.VideoView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int CAM_CAPTURE = 1;
     TwitterLoginButton loginButton;
     private static final String TAG = "MainActivity";
     MyModel myModel;
@@ -37,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                TwitterSession twitterSession = result.data;
-                CustomTwitterApiCLient apiCLient = new CustomTwitterApiCLient(twitterSession);
 
             }
 
@@ -53,28 +50,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAM_CAPTURE) {
-            Log.d(TAG, "onActivityResult: "+data);
-            VideoView videoView = new VideoView(this);
-            videoView.setVideoURI(data.getData(), true);
-            videoView.start();
-            viewGroup.addView(videoView);
-
-        } else {
-            loginButton.onActivityResult(requestCode, resultCode, data);
-            Intent intent = new Intent(this, AfterLogIn.class);
-            intent.putExtra("bundle", data.getExtras());
-            startActivity(intent);
-        }
+        loginButton.onActivityResult(requestCode, resultCode, data);
+        Intent intent = new Intent(this, AfterLogIn.class);
+        intent.putExtra("bundle", data.getExtras());
+        startActivity(intent);
     }
-
-    //        button = findViewById(R.id.button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-//                intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 5);
-//                startActivityForResult(intent, CAM_CAPTURE);
-//            }
-//        });
 }

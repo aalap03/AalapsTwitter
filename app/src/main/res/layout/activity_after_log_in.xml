@@ -10,7 +10,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:id="@+id/tweets"
-        android:visibility="gone"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -21,13 +20,13 @@
 
     </ScrollView>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/query"
-        android:imeOptions="actionDone"
-        android:layout_margin="10dp"
-        android:hint="#SearchYourHashTag"
-        android:inputType="textAutoComplete"
-        android:layout_centerInParent="true"/>
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/query"-->
+        <!--android:imeOptions="actionDone"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:hint="#SearchYourHashTag"-->
+        <!--android:inputType="textAutoComplete"-->
+        <!--android:layout_centerInParent="true"/>-->
 </RelativeLayout>

@@ -2,8 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/search"
-        android:title="SearchView"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always"/>
+    <item android:id="@+id/re_tweet"
+        android:title="My ReTweets"
+        app:showAsAction="never"/>
+    <item android:id="@+id/hash_tag"
+        android:title="Hash Tags"
+        app:showAsAction="never"/>
 </menu>
